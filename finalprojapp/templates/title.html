@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-md sticky-top flex-column">
+    <div class="w-100 d-flex">
+        <div class="navbar-header" id="header">
+            {% if user.is_authenticated %}
+            {% if user.appuser.usertype == 'student' %}
+            <h1 id="application_title">Student Portal</h1>
+            {% endif %}
+            {% endif %}
+            {% if user.is_authenticated %}
+            {% if user.appuser.usertype == 'teacher' %}
+            <h1 id="application_title">Teacher Portal</h1>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="w-100 d-flex">
+        <ul class="navbar-nav mr-auto" id="navigation">
+            {% if user.is_authenticated %}
+                {% if user.appuser.usertype == 'teacher' %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/createcourse">Add Course</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/managestudents">Manage Students</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/upload">Upload Course Material</a>
+                    </li>
+                    
+                {% elif user.appuser.usertype == 'student' %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/enrollcourse">Register Course</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/feedback">Feedback <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/statusupdate">Status Update <span class="sr-only">(current)</span></a>
+                    </li>
+                    
+                {% endif %}
+                <li class="nav-item active">
+                    <a class="nav-link"> Hello {{ user.username }} <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="../logout/"> Logout<span class="sr-only">(current)</span></a>
+                </li>
+            {% else %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="../register/"> Register <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="../login/"> Log In <span class="sr-only">(current)</span></a>
+                </li>
+            {% endif %}
+            {% if user.appuser.usertype == 'teacher' %}
+            <form action="{% url 'search' %}" method="get">
+                <input type="text" name="query" placeholder="Search Personnels">
+                <button type="submit">Search</button>
+                {% endif %}
+            </form>
+        </ul>
+    </div>
+</nav>

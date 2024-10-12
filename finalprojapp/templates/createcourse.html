@@ -1,0 +1,14 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+<div class="container">
+<form method="post">
+  <div class="form-group">
+    <p></p>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Course</button>
+    </div>
+  </div>
+  </form>

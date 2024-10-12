@@ -1,0 +1,26 @@
+
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Materials - {{ course.coursename }}</title>
+</head>
+<body>
+    <h1>Course Materials for {{ course.coursename }}</h1>
+
+    <ul>
+        {% for fileupload in course_materials %}
+            <li>
+                <a href="{{ fileupload.files.url }}" download>{{ fileupload.filename }}</a>
+                <!-- Display additional information about the material if needed -->
+            </li>
+        {% empty %}
+            <li>No course materials available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

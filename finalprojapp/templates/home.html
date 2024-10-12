@@ -1,0 +1,164 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<style>
+    table {
+        width: 50%;
+        border-collapse: collapse;
+        padding-right: 20px;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    
+    #chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+}
+
+#chat-messages {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+#chat-input {
+    width: 100%;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+</style>
+
+
+<h1>Welcome, {{ user_profile.user.first_name }}!</h1>
+<p>username: {{ user_profile.user.username }}</p>
+<p>email: {{ user_profile.user.email }}</p>
+{% if user_profile.usertype == 'teacher' %}
+<p>Teacher id: {{ teacher_id }}</p>
+{%elif user_profile.usertype == 'student' %}
+<p>student id: {{ student_id }}</p>
+{%endif%}
+
+{% if user_profile.usertype == 'student' %}
+    <h2>Enrolled Courses:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Course Material</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for enrollment in enrollments %}
+                <tr>
+                    <td>{{ enrollment.courseid.coursecode }}</td>
+                    <td>{{ enrollment.courseid.coursename }}</td>
+                    <td>{{ enrollment.courseid.coursestartdate }}</td>
+                    <td>{{ enrollment.courseid.courseenddate }}</td>
+                    <td><a href="{% url 'course_material' enrollment.courseid.pk %}">View Material</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<p>
+</p>
+
+{% elif user_profile.usertype == 'teacher' %}
+    <h2>Created Courses:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>View Students</th>
+                <th>Feedbacks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.coursecode }}</td>
+                    <td>{{ course.coursename }}</td>
+                    <td>{{ course.coursestartdate }}</td>
+                    <td>{{ course.courseenddate }}</td>
+                    <td><a href="{% url 'view_students' course.courseid %}">View Students</a></td>
+                    <td><a href="{% url 'view_feedback' course.courseid %}">View Feedbacks</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+<p></p>
+<h2>Status Update:</h2>
+<table border>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Status Update</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for statusupdate in statusupdates%}
+            <tr>
+                <td>{{ statusupdate.user.first_name }} {{statusupdate.user.last_name}}</td>
+                <td>{{ statusupdate.user.appuser.usertype }}</td>
+                <td>{{ statusupdate.status }}</td>
+                <td>{{ statusupdate.datepost }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p></p>
+<div>
+
+    {% if user_profile.usertype == 'teacher' %}
+    <h2>Notifications</h2>
+    <ul>
+        {% for notification in notifications %}
+            <li>Student {{ notification.studentid.first_name }} {{ notification.studentid.last_name }} enrolled in {{ notification.courseid }} on {{ notification.timestamp }}</li>
+
+        {% endfor %}
+    </ul>
+</div>
+
+{% elif user_profile.usertype == 'student' %}
+
+<div>
+    <h2>Notifications</h2>
+    <ul>
+        {% for notification in studnotifications %}
+            <li>Teacher {{ notification.teacherid.first_name }} {{ notification.teacherid.last_name }} uploaded a file in {{ notification.courseid }} on {{ notification.timestamp }}</li>
+
+        {% endfor %}
+    </ul>
+</div>
+{%endif%}
+{% endblock %}
+
+
+<div id="chat-container">
+    <div id="chat-messages">
+        <textarea id="chat-textarea"></textarea>
+    </div>
+    <input type="text" id="chat-input" placeholder="Type your message...">
+</div>

@@ -1,0 +1,30 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    
+    <h1>Search Results</h1>
+
+    <h2>Teachers</h2>
+    <ul>
+    {% for teacher in teachers %}
+        <li>{{ teacher.teacherFirstName }} {{ teacher.teacherLastName }}</li>
+        <li>Teacher ID: {{ teacher.teacherid }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Students</h2>
+    <ul>
+    {% for student in students %}
+        <li>{{ student.studentFirstName }} {{ student.studentLastName }}</li>
+        <li>Student ID: {{student.studentid}}</li>
+
+    {% endfor %}
+    </ul>
+</body>
+</html>

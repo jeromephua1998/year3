@@ -1,0 +1,35 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Feedback</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for feedbackview in feedbacks %}
+                <tr>
+                    <td>{{ feedbackview.studentid.studentFirstName }} {{ feedbackview.studentid.studentLastName }}</td>
+                    <td>{{ feedbackview.feedback }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>No feedback available for this course.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

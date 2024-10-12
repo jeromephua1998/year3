@@ -1,0 +1,33 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+</head>
+<body>
+    <h1>Upload File</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="filename">File name:</label>
+        <input type="text" id="filename" name="filename" required/><br>
+
+        <label for="files">Select File:</label>
+        <input type="file" id="files" name="files" required/><br>
+
+
+        <label for="courseid">Select Course:</label>
+        <select id="courseid" name="courseid" required/>
+            {% for course in courses %}
+                <option value="{{ course.courseid }}">{{ course.coursename }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>

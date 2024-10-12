@@ -1,0 +1,45 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+    <title>Students Enrolled in {{ course.coursename }}</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    
+    <h2>Students Enrolled in {{ course.coursename }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.pk }}</td>
+                    <td>{{ student.studentFirstName }}</td>
+                    <td>{{ student.studentLastName }}</td>
+                    <td>{{ student.studentemail }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>No students enrolled in this course.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>

@@ -1,0 +1,25 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+<table>
+    <thead>
+      <tr>
+        <th>Student ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <!-- Add other columns as needed -->
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
+      <tr>
+        <td>{{ student.studentid }}</td>
+        <td>{{ student.studentFirstName }}</td>
+        <td>{{ student.studentLastName }}</td>
+        <!-- Add other columns as needed -->
+        <td><a href="{% url 'delete_students' student.studentid %}">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>

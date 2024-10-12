@@ -1,0 +1,15 @@
+{% include "./header.html" %}
+{% include "./title.html" %}
+{% load bootstrap4 %}
+
+<!-- submit_feedback.html -->
+<form method="post" style="padding-left: 20px;">
+    {% csrf_token %}
+    <select name="courseid">
+        {% for course in courses %}
+            <option value="{{ course.courseid }}">{{ course.coursename }}</option>
+        {% endfor %}
+    </select>
+    {{ form.as_p }}
+    <button type="submit">Submit Feedback</button>
+</form>
